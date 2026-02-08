@@ -1,22 +1,23 @@
 from collector.telegram_web import fetch_from_channel
 from collector.dedup import deduplicate
-from collector.exporters import export_raw, export_clash, export_singbox
+from collector.exporters import export_raw
+import os
 
 def main():
     with open("channels.txt", encoding="utf-8") as f:
-        channels = [line.strip() for line in f if line.strip()]
+        channels = [c.strip() for c in f if c.strip()]
 
-    configs = []
+    all_configs = []
+
     for ch in channels:
-        configs.extend(fetch_from_channel(ch))
+        all_configs.extend(fetch_from_channel(ch))
 
-    configs = deduplicate(configs)
+    all_configs = deduplicate(all_configs)
 
-    export_raw(configs, "outputs/raw.txt")
-    export_clash(configs, "outputs/clash.yaml")
-    export_singbox(configs, "outputs/sing-box.json")
+    os.makedirs("outputs", exist_ok=True)
+    export_raw(all_configs, "outputs/raw.txt")
 
-    print(f"Collected {len(configs)} configs")
+    print(f"Collected {len(all_configs)} configs")
 
 if __name__ == "__main__":
     main()
