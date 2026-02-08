@@ -3,33 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <title>Auto Configs Collector</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-body {
+body{
   background:#020617;
   color:#e5e7eb;
   font-family:sans-serif;
   padding:30px;
 }
-select, a {
-  padding:10px;
-  margin:10px 0;
+h1{margin-bottom:5px}
+select, a{
   display:block;
-  border-radius:8px;
+  width:100%;
+  max-width:420px;
+  padding:12px;
+  margin:10px 0;
+  border-radius:10px;
   border:none;
 }
-a {
+select{background:#020617;color:#e5e7eb;border:1px solid #334155}
+a{
   background:#1e293b;
   color:#38bdf8;
   text-decoration:none;
+}
+.counter{
+  margin-top:20px;
+  opacity:.7;
 }
 </style>
 </head>
 <body>
 
 <h1>🚀 Auto Configs Collector</h1>
+<p>Auto updated every 3 hours</p>
 
-<select id="country" onchange="filter()">
-  <option value="">🌍 All Countries</option>
+<select id="country">
+  <option value="all">🌍 All Countries</option>
   <option value="Germany">🇩🇪 Germany</option>
   <option value="Netherlands">🇳🇱 Netherlands</option>
   <option value="France">🇫🇷 France</option>
@@ -38,17 +48,27 @@ a {
   <option value="Japan">🇯🇵 Japan</option>
 </select>
 
-<a data-country="all" href="../auto-configs-collector/outputs/subscribe.txt">🔗 Subscription</a>
-<a data-country="all" href="../auto-configs-collector/outputs/clash.yaml">⚡ Clash</a>
-<a data-country="all" href="../auto-configs-collector/outputs/singbox.json">🧩 Sing-box</a>
+<a id="sub" href="outputs/subscribe.txt">🔗 Subscription</a>
+<a href="outputs/clash.yaml">⚡ Clash</a>
+<a href="outputs/singbox.json">🧩 Sing-box</a>
+<a href="outputs/raw.txt">📄 Raw</a>
+
+<div class="counter">
+  👁 Visits: <span id="visits">...</span>
+</div>
 
 <script>
-function filter(){
-  const c = document.getElementById("country").value;
-  document.querySelectorAll("a").forEach(a=>{
-    a.style.display = "block";
-  });
-}
+const visitsKey = "acc-visits";
+const count = localStorage.getItem(visitsKey) || 0;
+localStorage.setItem(visitsKey, Number(count)+1);
+document.getElementById("visits").innerText = Number(count)+1;
+
+document.getElementById("country").onchange = e=>{
+  const c = e.target.value;
+  const base = "outputs/";
+  document.getElementById("sub").href =
+    c==="all" ? base+"subscribe.txt" : base+"subscribe_"+c+".txt";
+};
 </script>
 
 </body>
