@@ -1,3 +1,9 @@
+import re
+
+def clean_link(link: str) -> str:
+    return link.strip().replace("\u200b", "").replace("\n", "")
+
+
 def split_by_protocol(configs: list[str]) -> dict:
     result = {
         "vmess": [],
@@ -7,7 +13,8 @@ def split_by_protocol(configs: list[str]) -> dict:
     }
 
     for c in configs:
-        c = c.strip()
+        c = clean_link(c)
+
         if c.startswith("vmess://"):
             result["vmess"].append(c)
         elif c.startswith("vless://"):
