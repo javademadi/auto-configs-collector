@@ -6,6 +6,10 @@ from collector.vmess_decoder import decode_vmess, normalize_vmess
 from collector.clash_builder import build_clash
 from collector.singbox_builder import build_singbox
 from collector.subscription import build_subscription
+from collector.clash import export_clash
+from collector.singbox import export_singbox
+
+
 
 import os
 
@@ -36,6 +40,8 @@ def main():
 
     build_clash(vmess_norm)
     build_singbox(vmess_norm)
+    export_clash(all_configs, "outputs/clash.yaml")
+    export_singbox(all_configs, "outputs/singbox.json")
 
     print("=== SUMMARY ===")
     for k, v in protocols.items():
