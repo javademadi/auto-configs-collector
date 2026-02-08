@@ -10,6 +10,9 @@ from collector.clash import export_clash
 from collector.singbox import export_singbox
 from collector.country import tag_country
 from collector.health import filter_alive
+from collector.per_country import export_per_country
+
+
 
 
 
@@ -66,7 +69,7 @@ def main():
     for k in protocols:
         protocols[k] = filter_alive(protocols[k])
     build_subscription(all_configs, "outputs/subscribe.txt")
-
+    export_per_country(all_configs)
 
 if __name__ == "__main__":
     main()
