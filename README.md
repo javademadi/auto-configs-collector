@@ -18,13 +18,13 @@
 ## 📥 لینک‌های آماده استفاده
 
 ### 🔗 Subscription (Base64)
-https://raw.githubusercontent.com/USERNAME/REPO/main/outputs/subscribe.txt
+https://raw.githubusercontent.com/javademadi/auto-configs-collector/main/outputs/subscribe.txt
 
 ### ⚡ Clash
-https://raw.githubusercontent.com/USERNAME/REPO/main/outputs/clash.yaml
+https://raw.githubusercontent.com/javademadi/auto-configs-collector/main/outputs/clash.yaml
 
 ### 🧩 Sing-box
-https://raw.githubusercontent.com/USERNAME/REPO/main/outputs/singbox.json
+https://raw.githubusercontent.com/javademadi/auto-configs-collector/main/outputs/singbox.json
 
 
 ---
