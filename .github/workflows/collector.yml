@@ -28,6 +28,7 @@ jobs:
           rm -rf docs/outputs
           mkdir -p docs/outputs
           cp -r outputs/* docs/outputs/
+          cp outputs/subscribe_qr.png docs/outputs/
 
       - name: Debug outputs
         run: |
