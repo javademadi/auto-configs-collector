@@ -1,5 +1,12 @@
 import os
 
+def export_raw(configs: list[str], path: str):
+    if not configs:
+        return
+    with open(path, "w", encoding="utf-8") as f:
+        f.write("\n".join(configs))
+
+
 def write_list(items: list[str], path: str):
     if not items:
         return
