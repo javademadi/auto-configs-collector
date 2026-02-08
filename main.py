@@ -5,6 +5,8 @@ from collector.exporters import export_raw, export_protocols
 from collector.vmess_decoder import decode_vmess, normalize_vmess
 from collector.clash_builder import build_clash
 from collector.singbox_builder import build_singbox
+from collector.subscription import build_subscription
+
 import os
 
 def main():
@@ -38,6 +40,16 @@ def main():
     print("=== SUMMARY ===")
     for k, v in protocols.items():
         print(f"{k}: {len(v)}")
+
+    all_configs = (
+        protocols["vmess"]
+        + protocols["vless"]
+        + protocols["trojan"]
+        + protocols["ss"]
+    )
+    
+    build_subscription(all_configs, "outputs/subscribe.txt")
+
 
 if __name__ == "__main__":
     main()
