@@ -1,75 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Auto Configs Collector</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-body{
-  background:#020617;
-  color:#e5e7eb;
-  font-family:sans-serif;
-  padding:30px;
-}
-h1{margin-bottom:5px}
-select, a{
-  display:block;
-  width:100%;
-  max-width:420px;
-  padding:12px;
-  margin:10px 0;
-  border-radius:10px;
-  border:none;
-}
-select{background:#020617;color:#e5e7eb;border:1px solid #334155}
-a{
-  background:#1e293b;
-  color:#38bdf8;
-  text-decoration:none;
-}
-.counter{
-  margin-top:20px;
-  opacity:.7;
-}
-</style>
-</head>
-<body>
+from collector.fetcher import fetch_all
+from collector.parser import parse_protocols
+from collector.exporters import export_raw, export_protocols
+from collector.subscription import build_subscription
+from collector.country import tag_country
+from collector.health import filter_alive
+from collector.per_country import export_per_country
+from collector.qrcode_gen import make_qr
 
-<h1>🚀 Auto Configs Collector</h1>
-<p>Auto updated every 3 hours</p>
+import os
 
-<select id="country">
-  <option value="all">🌍 All Countries</option>
-  <option value="Germany">🇩🇪 Germany</option>
-  <option value="Netherlands">🇳🇱 Netherlands</option>
-  <option value="France">🇫🇷 France</option>
-  <option value="USA">🇺🇸 USA</option>
-  <option value="Turkey">🇹🇷 Turkey</option>
-  <option value="Japan">🇯🇵 Japan</option>
-</select>
+OUTPUT_DIR = "outputs"
+os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-<a id="sub" href="outputs/subscribe.txt">🔗 Subscription</a>
-<a href="outputs/clash.yaml">⚡ Clash</a>
-<a href="outputs/singbox.json">🧩 Sing-box</a>
-<a href="outputs/raw.txt">📄 Raw</a>
+def main():
+    # 1. Fetch raw configs
+    raw_configs = fetch_all()
 
-<div class="counter">
-  👁 Visits: <span id="visits">...</span>
-</div>
+    # 2. Save raw
+    export_raw(raw_configs, f"{OUTPUT_DIR}/raw.txt")
 
-<script>
-const visitsKey = "acc-visits";
-const count = localStorage.getItem(visitsKey) || 0;
-localStorage.setItem(visitsKey, Number(count)+1);
-document.getElementById("visits").innerText = Number(count)+1;
+    # 3. Parse by protocol
+    protocols = parse_protocols(raw_configs)
 
-document.getElementById("country").onchange = e=>{
-  const c = e.target.value;
-  const base = "outputs/";
-  document.getElementById("sub").href =
-    c==="all" ? base+"subscribe.txt" : base+"subscribe_"+c+".txt";
-};
-</script>
+    # 4. Tag country
+    for proto in protocols:
+        protocols[proto] = [tag_country(c) for c in protocols[proto]]
 
-</body>
-</html>
+    # 5. Filter alive + latency sort
+    for proto in protocols:
+        protocols[proto] = filter_alive(protocols[proto])
+
+    # 6. Export per-protocol lists
+    export_protocols(protocols, OUTPUT_DIR)
+
+    # 7. Merge all configs
+    all_configs = (
+        protocols.get("vmess", []) +
+        protocols.get("vless", []) +
+        protocols.get("trojan", []) +
+        protocols.get("ss", [])
+    )
+
+    # 8. Build main subscription
+    build_subscription(all_configs, f"{OUTPUT_DIR}/subscribe.txt")
+
+    # 9. Build per-country subscriptions
+    export_per_country(all_configs, OUTPUT_DIR)
+
+    # 10. Generate QR code for main subscription
+    with open(f"{OUTPUT_DIR}/subscribe.txt", "r", encoding="utf-8") as f:
+        make_qr(f.read(), f"{OUTPUT_DIR}/subscribe_qr.png")
+
+    print("✅ Collection completed successfully")
+    print(f"Total configs: {len(all_configs)}")
+
+if __name__ == "__main__":
+    main()
