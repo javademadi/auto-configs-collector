@@ -3,6 +3,8 @@ from collector.dedup import deduplicate
 from collector.extractors import split_by_protocol
 from collector.exporters import export_raw, export_protocols
 from collector.vmess_decoder import decode_vmess, normalize_vmess
+from collector.clash_builder import build_clash
+from collector.singbox_builder import build_singbox
 import os
 
 def main():
@@ -10,7 +12,6 @@ def main():
         channels = [c.strip() for c in f if c.strip()]
 
     all_configs = []
-
     for ch in channels:
         all_configs.extend(fetch_from_channel(ch))
 
@@ -21,18 +22,20 @@ def main():
 
     protocols = split_by_protocol(all_configs)
 
-    # decode + normalize vmess
-    normalized_vmess = []
+    vmess_norm = []
     for i, vm in enumerate(protocols["vmess"]):
         data = decode_vmess(vm)
         if data:
-            normalized_vmess.append(normalize_vmess(data, i))
+            vmess_norm.append(normalize_vmess(data, i))
 
-    protocols["vmess"] = normalized_vmess
+    protocols["vmess"] = vmess_norm
 
     export_protocols(protocols)
 
-    print("Summary:")
+    build_clash(vmess_norm)
+    build_singbox(vmess_norm)
+
+    print("=== SUMMARY ===")
     for k, v in protocols.items():
         print(f"{k}: {len(v)}")
 
