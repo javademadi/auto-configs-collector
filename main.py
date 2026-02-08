@@ -1,7 +1,8 @@
 from collector.telegram_web import fetch_from_channel
 from collector.dedup import deduplicate
-from collector.exporters import export_raw, export_protocols
 from collector.extractors import split_by_protocol
+from collector.exporters import export_raw, export_protocols
+from collector.vmess_decoder import decode_vmess, normalize_vmess
 import os
 
 def main():
@@ -16,16 +17,18 @@ def main():
     all_configs = deduplicate(all_configs)
 
     os.makedirs("outputs", exist_ok=True)
-
-    # raw
     export_raw(all_configs, "outputs/raw.txt")
 
-    # split by protocol
     protocols = split_by_protocol(all_configs)
 
-    # dedup again per protocol
-    for k in protocols:
-        protocols[k] = deduplicate(protocols[k])
+    # decode + normalize vmess
+    normalized_vmess = []
+    for i, vm in enumerate(protocols["vmess"]):
+        data = decode_vmess(vm)
+        if data:
+            normalized_vmess.append(normalize_vmess(data, i))
+
+    protocols["vmess"] = normalized_vmess
 
     export_protocols(protocols)
 
