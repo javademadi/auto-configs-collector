@@ -9,6 +9,10 @@ from collector.subscription import build_subscription
 from collector.clash import export_clash
 from collector.singbox import export_singbox
 from collector.country import tag_country
+from collector.health import filter_alive
+
+
+
 
 
 
@@ -59,7 +63,8 @@ def main():
         + protocols["trojan"]
         + protocols["ss"]
     )
-    
+    for k in protocols:
+        protocols[k] = filter_alive(protocols[k])
     build_subscription(all_configs, "outputs/subscribe.txt")
 
 
