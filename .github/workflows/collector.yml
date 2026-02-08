@@ -22,6 +22,12 @@ jobs:
 
       - name: Run collector
         run: python main.py
+        
+      - name: Copy outputs to docs
+        run: |
+          rm -rf docs/outputs
+          mkdir -p docs/outputs
+          cp -r outputs/* docs/outputs/
 
       - name: Debug outputs
         run: |
