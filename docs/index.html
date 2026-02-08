@@ -5,34 +5,51 @@
 <title>Auto Configs Collector</title>
 <style>
 body {
-  font-family: sans-serif;
-  background: #0f172a;
-  color: #e5e7eb;
-  padding: 40px;
+  background:#020617;
+  color:#e5e7eb;
+  font-family:sans-serif;
+  padding:30px;
+}
+select, a {
+  padding:10px;
+  margin:10px 0;
+  display:block;
+  border-radius:8px;
+  border:none;
 }
 a {
-  display: block;
-  padding: 12px;
-  margin: 10px 0;
-  background: #1e293b;
-  color: #38bdf8;
-  text-decoration: none;
-  border-radius: 8px;
-}
-a:hover {
-  background: #334155;
+  background:#1e293b;
+  color:#38bdf8;
+  text-decoration:none;
 }
 </style>
 </head>
 <body>
 
 <h1>🚀 Auto Configs Collector</h1>
-<p>Updated every 3 hours</p>
 
-<a href="../outputs/subscribe.txt">🔗 Subscription</a>
-<a href="../outputs/clash.yaml">⚡ Clash</a>
-<a href="../outputs/singbox.json">🧩 Sing-box</a>
-<a href="../outputs/raw.txt">📄 Raw</a>
+<select id="country" onchange="filter()">
+  <option value="">🌍 All Countries</option>
+  <option value="Germany">🇩🇪 Germany</option>
+  <option value="Netherlands">🇳🇱 Netherlands</option>
+  <option value="France">🇫🇷 France</option>
+  <option value="USA">🇺🇸 USA</option>
+  <option value="Turkey">🇹🇷 Turkey</option>
+  <option value="Japan">🇯🇵 Japan</option>
+</select>
+
+<a data-country="all" href="../outputs/subscribe.txt">🔗 Subscription</a>
+<a data-country="all" href="../outputs/clash.yaml">⚡ Clash</a>
+<a data-country="all" href="../outputs/singbox.json">🧩 Sing-box</a>
+
+<script>
+function filter(){
+  const c = document.getElementById("country").value;
+  document.querySelectorAll("a").forEach(a=>{
+    a.style.display = "block";
+  });
+}
+</script>
 
 </body>
 </html>
