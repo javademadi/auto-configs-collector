@@ -8,6 +8,10 @@ from collector.singbox_builder import build_singbox
 from collector.subscription import build_subscription
 from collector.clash import export_clash
 from collector.singbox import export_singbox
+from collector.country import tag_country
+
+
+
 
 
 
@@ -35,7 +39,9 @@ def main():
             vmess_norm.append(normalize_vmess(data, i))
 
     protocols["vmess"] = vmess_norm
-
+    for k in protocols:
+        protocols[k] = [tag_country(c) for c in protocols[k]]
+        
     export_protocols(protocols)
 
     build_clash(vmess_norm)
