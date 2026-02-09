@@ -8,9 +8,9 @@ from collector.per_country import export_per_country
 from collector.qrcode_gen import make_qr
 
 import os
-
-OUTPUT_DIR = "outputs"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
+OUTPUT_DIR = "docs/outputs"
+
 
 def main():
     # 1. Fetch raw configs
