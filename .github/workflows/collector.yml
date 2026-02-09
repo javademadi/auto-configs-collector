@@ -26,6 +26,8 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add outputs/raw.txt
+          git add outputs/
+          git status
           git commit -m "update raw configs" || echo "no changes"
           git push
+
