@@ -1,45 +1,8 @@
-# 🌐 Auto Configs Collector 3H
+# Auto Configs Collector
 
-جمع‌آوری خودکار کانفیگ‌های V2Ray / Clash / Sing-box  
-بدون سرور • بدون Docker • فقط GitHub Actions
+آخرین لیست کانفیگ‌ها (raw):
 
----
+👉 **raw.txt**
+https://raw.githubusercontent.com/javademadi/auto-configs-collector/main/outputs/raw.txt
 
-## ✨ امکانات
-- 🔄 بروزرسانی خودکار هر 3 ساعت
-- 📦 خروجی Raw / Clash / Sing-box
-- 🌍 تگ کشور اتوماتیک
-- 🚀 Subscription آماده مصرف
-- 🧠 حذف تکراری‌ها
-- 🖥 Web UI سبک و سریع
-
----
-
-## 📥 لینک‌های آماده استفاده
-
-### 🔗 Subscription (Base64)
-https://raw.githubusercontent.com/javademadi/auto-configs-collector/main/outputs/subscribe.txt
-
-### ⚡ Clash
-https://raw.githubusercontent.com/javademadi/auto-configs-collector/main/outputs/clash.yaml
-
-### 🧩 Sing-box
-https://raw.githubusercontent.com/javademadi/auto-configs-collector/main/outputs/singbox.json
-
-
----
-
-## 🖥 Web UI
-https://javademadi.github.io/auto-configs-collector/
-
-
----
-
-## ⏱ Schedule
-هر ۳ ساعت یک‌بار به‌صورت خودکار اجرا می‌شود.
-
----
-
-## ⚠️ Disclaimer
-این پروژه صرفاً جهت استفاده شخصی و آموزشی است.
-
+هر ۳ ساعت به‌صورت خودکار آپدیت می‌شود.
