@@ -1,29 +1,22 @@
-from collector.fetcher import fetch_all
-from collector.parser import parse_protocols
-import os
-
-OUTPUT_DIR = "outputs"
-RAW_FILE = f"{OUTPUT_DIR}/raw.txt"
+from collector.telegram_web import fetch_from_channel
+from collector.dedup import deduplicate
+from collector.exporters import export_raw, export_clash, export_singbox
 
 def main():
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    with open("channels.txt", encoding="utf-8") as f:
+        channels = [line.strip() for line in f if line.strip()]
 
-    print("Fetching sources...")
-    texts = fetch_all()
+    configs = []
+    for ch in channels:
+        configs.extend(fetch_from_channel(ch))
 
-    print("Parsing configs...")
-    protocols = parse_protocols(texts)
+    configs = deduplicate(configs)
 
-    all_configs = []
-    for items in protocols.values():
-        all_configs.extend(items)
+    export_raw(configs, "outputs/raw.txt")
+    export_clash(configs, "outputs/clash.yaml")
+    export_singbox(configs, "outputs/sing-box.json")
 
-    all_configs = sorted(set(all_configs))
-
-    with open(RAW_FILE, "w", encoding="utf-8") as f:
-        f.write("\n".join(all_configs))
-
-    print(f"Done. Total configs: {len(all_configs)}")
+    print(f"Collected {len(configs)} configs")
 
 if __name__ == "__main__":
     main()
