@@ -8510,15 +8510,3 @@ proxies:
 - name: node-2836
   server: example.com
   type: vmess
-- name: node-2837
-  server: example.com
-  type: vmess
-- name: node-2838
-  server: example.com
-  type: vmess
-- name: node-2839
-  server: example.com
-  type: vmess
-- name: node-2840
-  server: example.com
-  type: vmess
