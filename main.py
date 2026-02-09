@@ -48,8 +48,9 @@ def main():
     export_per_country(all_configs, OUTPUT_DIR)
 
     # 10. Generate QR code for main subscription
-    with open(f"{OUTPUT_DIR}/subscribe.txt", "r", encoding="utf-8") as f:
-        make_qr(f.read(), f"{OUTPUT_DIR}/subscribe_qr.png")
+    SUB_URL = "https://javademadi.github.io/auto-configs-collector/outputs/subscribe.txt"
+    make_qr(SUB_URL, f"{OUTPUT_DIR}/subscribe_qr.png")
+
 
     print("✅ Collection completed successfully")
     print(f"Total configs: {len(all_configs)}")
