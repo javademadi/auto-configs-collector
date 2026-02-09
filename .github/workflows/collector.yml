@@ -1,4 +1,4 @@
-name: Auto Config Collector
+name: Auto Config Collector (3H)
 
 on:
   schedule:
@@ -8,26 +8,25 @@ on:
 jobs:
   collect:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Install deps
-        run: |
-          pip install -r requirements.txt
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
       - name: Run collector
         run: python main.py
 
-      - name: Commit results
+      - name: Commit & Push
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add outputs/
-          git status
-          git commit -m "update raw configs" || echo "no changes"
+          git add outputs/*
+          git commit -m "update configs" || echo "No changes"
           git push
-
