@@ -8,8 +8,9 @@ from collector.per_country import export_per_country
 from collector.qrcode_gen import make_qr
 
 import os
-os.makedirs(OUTPUT_DIR, exist_ok=True)
 OUTPUT_DIR = "docs/outputs"
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+
 
 
 def main():
