@@ -5,4 +5,4 @@
 👉 **raw.txt**
 https://raw.githubusercontent.com/javademadi/auto-configs-collector/main/outputs/raw.txt
 
-هر ۳ ساعت به‌صورت خودکار آپدیت می‌شود.
+هر 2 ساعت به‌صورت خودکار آپدیت می‌شود.
