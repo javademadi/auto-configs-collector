@@ -2,7 +2,7 @@ import socket
 import time
 import re
 
-TIMEOUT = 2
+TIMEOUT = 1
 
 def extract_host_port(config: str):
     match = re.search(r"@(.+?):(\d+)", config)
