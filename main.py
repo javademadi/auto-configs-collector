@@ -25,14 +25,18 @@ def main():
         except Exception:
             continue
 
-    # حذف تکراری
+    # حذف تکراری‌ها
     configs = deduplicate(configs)
 
-    # تست alive (روش ۱ + ۲)
+    # تست alive (ساختاری + شبکه) به صورت threaded
     if ENABLE_ALIVE_CHECK:
-        configs = filter_alive_configs(configs, timeout=1.2)
+        configs = filter_alive_configs(
+            configs,
+            timeout=1.2,
+            max_workers=20
+        )
 
-    # محدودسازی خروجی
+    # محدودسازی حجم خروجی
     configs = configs[:MAX_TOTAL_CONFIGS]
 
     export_raw(configs, "outputs/raw.txt")
