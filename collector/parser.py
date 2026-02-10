@@ -10,9 +10,9 @@ def is_valid_structure(config: str) -> bool:
             decoded = base64.b64decode(payload + "==").decode("utf-8")
             data = json.loads(decoded)
 
-            return (
-                isinstance(data.get("add"), str)
-                and isinstance(data.get("port"), (int, str))
+            return bool(
+                data.get("add")
+                and data.get("port")
                 and data.get("id")
             )
 
