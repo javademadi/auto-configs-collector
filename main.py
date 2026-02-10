@@ -5,7 +5,7 @@ from collector.alive_filter import filter_alive_configs
 
 
 MAX_CONFIGS_PER_CHANNEL = 40
-MAX_TOTAL_CONFIGS = 900
+MAX_TOTAL_CONFIGS = 500
 ENABLE_ALIVE_CHECK = True
 
 
