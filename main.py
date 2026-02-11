@@ -40,8 +40,7 @@ def main():
     configs = configs[:MAX_TOTAL_CONFIGS]
 
     split_and_export(configs, parts=3)
-    export_clash(configs, "outputs/clash.yaml")
-    export_singbox(configs, "outputs/sing-box.json")
+
 
     print(f"Collected {len(configs)} alive configs")
 
