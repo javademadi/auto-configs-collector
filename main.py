@@ -2,10 +2,10 @@ from collector.telegram_web import fetch_from_channel
 from collector.dedup import deduplicate
 from collector.exporters import export_raw, export_clash, export_singbox
 from collector.alive_filter import filter_alive_configs
-
+from collector.splitter import split_and_export
 
 MAX_CONFIGS_PER_CHANNEL = 40
-MAX_TOTAL_CONFIGS = 500
+MAX_TOTAL_CONFIGS = 1000
 ENABLE_ALIVE_CHECK = True
 
 
@@ -39,7 +39,7 @@ def main():
     # محدودسازی حجم خروجی
     configs = configs[:MAX_TOTAL_CONFIGS]
 
-    export_raw(configs, "outputs/raw.txt")
+    split_and_export(configs, parts=3)
     export_clash(configs, "outputs/clash.yaml")
     export_singbox(configs, "outputs/sing-box.json")
 
